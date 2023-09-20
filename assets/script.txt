@@ -1,0 +1,6 @@
+t0,move,-100,-50
+c0,radius,45
+c0,move,50,-50
+l0,dy,54
+l0,dx,20
+c0,filled,true

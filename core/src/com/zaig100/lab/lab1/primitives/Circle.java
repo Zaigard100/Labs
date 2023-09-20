@@ -21,7 +21,11 @@ public class Circle {
 
     public void render(ShapeRenderer shape, Camera camera){
         shape.setProjectionMatrix(camera.combined);
-        shape.begin(ShapeRenderer.ShapeType.Line);
+        if (filled) {
+            shape.begin(ShapeRenderer.ShapeType.Filled);
+        }else{
+            shape.begin(ShapeRenderer.ShapeType.Line);
+        }
 
         shape.setColor(color);
             shape.circle(x,y,radius);

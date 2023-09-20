@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Line {
-    private int x,y,x1,y1;
+    private int x,y,dx,dy;
     private int[] points;
 
     private Color color;
 
-    public Line(int x, int y, int x1, int y1, Color color) {
+    public Line(int x, int y, int dx, int dy, Color color) {
         this.x = x;
         this.y = y;
-        this.x1 = x1;
-        this.y1 = y1;
+        this.dx = dx;
+        this.dy = dy;
         this.color = color;
     }
 
@@ -22,8 +22,9 @@ public class Line {
         shape.setProjectionMatrix(camera.combined);
         shape.begin(ShapeRenderer.ShapeType.Line);
         shape.setColor(color);
-        shape.line( x,y,
-                    x+x1,y+y1
+        shape.line(x,y,
+                x+dx,
+                y+dy
         );
 
         shape.end();
@@ -46,17 +47,17 @@ public class Line {
     public void setY(int y) {
         this.y = y;
     }
-    public int getX1() {
-        return x1;
+    public int getDx() {
+        return dx;
     }
-    public void setX1(int x1) {
-        this.x1 = x1;
+    public void setDx(int dx) {
+        this.dx = dx;
     }
-    public int getY1() {
-        return y1;
+    public int getDy() {
+        return dy;
     }
-    public void setY1(int y1) {
-        this.y1 = y1;
+    public void setDy(int dy) {
+        this.dy = dy;
     }
     public int[] getPoints() {
         return points;

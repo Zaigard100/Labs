@@ -8,6 +8,7 @@ import com.zaig100.lab.lab1.primitives.Triangle;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -17,16 +18,22 @@ public class Utils {
     private ArrayList<Line> lines;
     private ArrayList<Circle> circles;
 
-    String line ="";
+    private String line ="";
+    private ArrayList<String> scripts;
+
+    private int iter = 0;
 
     public Utils(){
         triangles = new ArrayList<>();
         lines = new ArrayList<>();
         circles = new ArrayList<>();
+
+        scripts = new ArrayList<>();
     }
 
-    public  void load(){
-        try(FileReader reader = new FileReader("/home/zaigard/Projects/Labs/assets/list.txt"))
+    public  void load(String file){
+        line = "";
+        try(FileReader reader = new FileReader(file))
         {
 
             int c;
@@ -45,6 +52,99 @@ public class Utils {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void script(String file){
+        line = "";
+        try(FileReader reader = new FileReader(file))
+        {
+
+            int c;
+            while((c=reader.read())!=-1){
+
+                if(c=='\n'){
+                    scripts.add(line);
+                    line = "";
+                    continue;
+                }
+                line += (char)c;
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        scripts.add(line);
+    }
+
+    public void next(){
+        if(scripts.size()==iter) return;
+        String[] words = scripts.get(iter).split(",");
+
+        if(words[0].charAt(0)=='t'){
+            System.out.println(words[0].charAt(0)+" "+words[0].replace("t", "")+" "+words[1]+" "+words[2]);
+            if(words[1].equals("move")) {
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
+            }else if(words[1].equals("x")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setX(Integer.parseInt(words[2]));
+            }else if(words[1].equals("y")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setY(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dx")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDx(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dy")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDy(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dx1")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDx1(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dy1")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDy1(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dx2")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDx2(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dy2")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setDy2(Integer.parseInt(words[2]));
+            }else if(words[1].equals("filled")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setFilled(Boolean.parseBoolean(words[2]));
+            }else if(words[1].equals("color")){
+                triangles.get(Integer.parseInt(words[0].replace("t", ""))).setColor(color(words[2]));
+            }else{
+                System.out.println(words[0]+" incorrect command");
+            }
+        }else if(words[0].charAt(0)=='l'){
+            System.out.println(words[0].charAt(0)+" "+words[0].replace("l", "")+" "+words[1]+" "+words[2]);
+            if(words[1].equals("move")) {
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
+            }else if(words[1].equals("x")){
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).setX(Integer.parseInt(words[2]));
+            }else if(words[1].equals("y")){
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).setY(Integer.parseInt(words[2]));
+            }else if(words[1].equals("dx")){
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).setDx(Integer.parseInt(words[2]));
+                System.out.println(lines.get(Integer.parseInt(words[0].replace("l", ""))).getDx());
+            }else if(words[1].equals("dy")){
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).setDy(Integer.parseInt(words[2]));
+                System.out.println(lines.get(Integer.parseInt(words[0].replace("l", ""))).getDy());
+            }else if(words[1].equals("color")){
+                lines.get(Integer.parseInt(words[0].replace("l", ""))).setColor(color(words[2]));
+            }else{
+                System.out.println(words[0]+" incorrect command");
+            }
+        }else if(words[0].charAt(0)=='c'){
+            System.out.println(words[0].charAt(0)+" "+words[0].replace("c", "")+" "+words[1]+" "+words[2]);
+            if(words[1].equals("move")) {
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
+            }else if(words[1].equals("x")){
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).setX(Integer.parseInt(words[2]));
+            }else if(words[1].equals("y")){
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).setY(Integer.parseInt(words[2]));
+            }else if(words[1].equals("radius")){
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).setRadius(Integer.parseInt(words[2]));
+            }else if(words[1].equals("filled")){
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).setFilled(Boolean.parseBoolean(words[2]));
+            }else if(words[1].equals("color")){
+                circles.get(Integer.parseInt(words[0].replace("c", ""))).setColor(color(words[2]));
+            }else{
+                System.out.println(words[0]+" incorrect command");
+            }
+        }
+        iter++;
     }
 
     private void parse_line(String line){

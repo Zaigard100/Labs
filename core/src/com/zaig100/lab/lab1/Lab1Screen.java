@@ -1,8 +1,10 @@
 package com.zaig100.lab.lab1;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,6 +15,7 @@ import com.zaig100.lab.lab1.primitives.Circle;
 import com.zaig100.lab.lab1.primitives.Line;
 import com.zaig100.lab.lab1.primitives.Triangle;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 public class Lab1Screen implements Screen {
@@ -35,13 +38,14 @@ public class Lab1Screen implements Screen {
         camera = new OrthographicCamera();
         viewport = new FitViewport(main.WIDTH, main.HEIGHT, camera);
         batch = new SpriteBatch();
-        new Utils().load();
         utils = new Utils();
-        utils.load();
+        utils.load("/home/zaigard/Projects/Labs/assets/list.txt");
+        utils.script("/home/zaigard/Projects/Labs/assets/script.txt");
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
             for(Triangle t: utils.getTriangles()){
@@ -55,6 +59,9 @@ public class Lab1Screen implements Screen {
             }
         batch.end();
 
+            if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
+                utils.next();
+            }
     }
 
     @Override
