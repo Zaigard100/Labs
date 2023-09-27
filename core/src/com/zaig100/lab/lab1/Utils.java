@@ -5,14 +5,12 @@ import com.zaig100.lab.lab1.primitives.Circle;
 import com.zaig100.lab.lab1.primitives.Line;
 import com.zaig100.lab.lab1.primitives.Triangle;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Utils {
+
 
     private ArrayList<Triangle> triangles;
     private ArrayList<Line> lines;
@@ -81,7 +79,6 @@ public class Utils {
         String[] words = scripts.get(iter).split(",");
 
         if(words[0].charAt(0)=='t'){
-            System.out.println(words[0].charAt(0)+" "+words[0].replace("t", "")+" "+words[1]+" "+words[2]);
             if(words[1].equals("move")) {
                 triangles.get(Integer.parseInt(words[0].replace("t", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
             }else if(words[1].equals("x")){
@@ -104,11 +101,13 @@ public class Utils {
                 triangles.get(Integer.parseInt(words[0].replace("t", ""))).setFilled(Boolean.parseBoolean(words[2]));
             }else if(words[1].equals("color")){
                 triangles.get(Integer.parseInt(words[0].replace("t", ""))).setColor(color(words[2]));
+            }else if(words[1].equals("delete")){
+                triangles.remove(words[0].replace("t", ""));
+                System.out.println(words[0]+" delete");
             }else{
                 System.out.println(words[0]+" incorrect command");
             }
         }else if(words[0].charAt(0)=='l'){
-            System.out.println(words[0].charAt(0)+" "+words[0].replace("l", "")+" "+words[1]+" "+words[2]);
             if(words[1].equals("move")) {
                 lines.get(Integer.parseInt(words[0].replace("l", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
             }else if(words[1].equals("x")){
@@ -117,17 +116,17 @@ public class Utils {
                 lines.get(Integer.parseInt(words[0].replace("l", ""))).setY(Integer.parseInt(words[2]));
             }else if(words[1].equals("dx")){
                 lines.get(Integer.parseInt(words[0].replace("l", ""))).setDx(Integer.parseInt(words[2]));
-                System.out.println(lines.get(Integer.parseInt(words[0].replace("l", ""))).getDx());
             }else if(words[1].equals("dy")){
                 lines.get(Integer.parseInt(words[0].replace("l", ""))).setDy(Integer.parseInt(words[2]));
-                System.out.println(lines.get(Integer.parseInt(words[0].replace("l", ""))).getDy());
             }else if(words[1].equals("color")){
                 lines.get(Integer.parseInt(words[0].replace("l", ""))).setColor(color(words[2]));
+            }else if(words[1].equals("delete")){
+                lines.remove(words[0].replace("l", ""));
+                System.out.println(words[0]+" delete");
             }else{
                 System.out.println(words[0]+" incorrect command");
             }
         }else if(words[0].charAt(0)=='c'){
-            System.out.println(words[0].charAt(0)+" "+words[0].replace("c", "")+" "+words[1]+" "+words[2]);
             if(words[1].equals("move")) {
                 circles.get(Integer.parseInt(words[0].replace("c", ""))).move(Integer.parseInt(words[2]),Integer.parseInt(words[3]));
             }else if(words[1].equals("x")){
@@ -140,6 +139,9 @@ public class Utils {
                 circles.get(Integer.parseInt(words[0].replace("c", ""))).setFilled(Boolean.parseBoolean(words[2]));
             }else if(words[1].equals("color")){
                 circles.get(Integer.parseInt(words[0].replace("c", ""))).setColor(color(words[2]));
+            }else if(words[1].equals("delete")){
+                circles.remove(words[0].replace("c", ""));
+                System.out.println(words[0]+" delete");
             }else{
                 System.out.println(words[0]+" incorrect command");
             }

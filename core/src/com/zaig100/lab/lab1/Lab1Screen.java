@@ -25,8 +25,8 @@ public class Lab1Screen implements Screen {
     private FitViewport viewport;
     private OrthographicCamera camera;
     private SpriteBatch batch;
-
     private Utils utils;
+    private boolean isMenuOpen = false;
 
     public Lab1Screen(Main main){
         this.main = main;
@@ -39,8 +39,8 @@ public class Lab1Screen implements Screen {
         viewport = new FitViewport(main.WIDTH, main.HEIGHT, camera);
         batch = new SpriteBatch();
         utils = new Utils();
-        utils.load("/home/zaigard/Projects/Labs/assets/list.txt");
-        utils.script("/home/zaigard/Projects/Labs/assets/script.txt");
+        utils.load("/home/zaigard/Projects/Labs/assets/lab1/list.txt");
+        utils.script("/home/zaigard/Projects/Labs/assets/lab1/script.txt");
     }
 
     @Override
@@ -48,6 +48,14 @@ public class Lab1Screen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+
+            batch.draw(Resources.menu_s,-main.WIDTH/2,-main.HEIGHT/2,64,64);
+            if(isMenuOpen){
+                Resources.dongle12.draw(batch,"Circle",-main.WIDTH/2+10,-main.HEIGHT/2+75);
+                Resources.dongle12.draw(batch,"Line",-main.WIDTH/2+10,-main.HEIGHT/2+75+75);
+                Resources.dongle12.draw(batch,"Triangle",-main.WIDTH/2+10,-main.HEIGHT/2+75+75+75);
+            }
+
             for(Triangle t: utils.getTriangles()){
                 t.render(shape,camera);
             }
@@ -57,10 +65,21 @@ public class Lab1Screen implements Screen {
             for(Circle c:utils.getCircles()){
                 c.render(shape,camera);
             }
+
         batch.end();
 
-            if(Gdx.input.isKeyJustPressed(Input.Keys.W)){
-                utils.next();
+            if(Gdx.input.justTouched()){
+                //utils.next();
+                int getY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                if(Gdx.input.getX()<=64){
+                    if(getY<=64){
+                        if(isMenuOpen){
+                            isMenuOpen = false;
+                        }else {
+                            isMenuOpen = true;
+                        }
+                    }
+                }
             }
     }
 
