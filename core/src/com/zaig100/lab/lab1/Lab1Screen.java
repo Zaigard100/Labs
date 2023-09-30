@@ -27,6 +27,9 @@ public class Lab1Screen implements Screen {
     private SpriteBatch batch;
     private Utils utils;
     private boolean isMenuOpen = false;
+    private boolean isTriangle = false;
+    private boolean isCircle = false;
+    private boolean isLine = false;
 
     public Lab1Screen(Main main){
         this.main = main;
@@ -45,17 +48,48 @@ public class Lab1Screen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 
+        batch.setProjectionMatrix(camera.combined);
+        camera.update();
         batch.begin();
-
-            batch.draw(Resources.menu_s,-main.WIDTH/2,-main.HEIGHT/2,64,64);
+        batch.enableBlending();
             if(isMenuOpen){
-                Resources.dongle12.draw(batch,"Circle",-main.WIDTH/2+10,-main.HEIGHT/2+75);
-                Resources.dongle12.draw(batch,"Line",-main.WIDTH/2+10,-main.HEIGHT/2+75+75);
-                Resources.dongle12.draw(batch,"Triangle",-main.WIDTH/2+10,-main.HEIGHT/2+75+75+75);
-            }
 
+                Resources.dongle12.draw(batch,"Line", (float) -main.WIDTH /2+75, (float) -main.HEIGHT /2+95+65);
+                Resources.dongle12.draw(batch,"Triangle", (float) -main.WIDTH /2+75, (float) -main.HEIGHT /2+95+65+65);
+                batch.draw(Resources.frame, (float) -main.WIDTH /2, (float) -main.HEIGHT /2+64,64,64);
+                batch.draw(Resources.frame, (float) -main.WIDTH /2, (float) -main.HEIGHT /2+64*2,64,64);
+                batch.draw(Resources.frame, (float) -main.WIDTH /2, (float) -main.HEIGHT /2+64*3,64,64);
+                if(isCircle){
+
+                    batch.draw(Resources.arrow_up, (float) -main.WIDTH /2+64*2, (float) -main.HEIGHT /2+64*2,64,64);
+                    batch.draw(Resources.arrow_up, (float) -main.WIDTH /2+64*3, (float) -main.HEIGHT /2+64*2,64,64);
+                    batch.draw(Resources.arrow_up, (float) -main.WIDTH /2+64*4, (float) -main.HEIGHT /2+64*2,64,64);
+                    batch.draw(Resources.arrow_up, (float) -main.WIDTH /2+64*5, (float) -main.HEIGHT /2+64*2,64,64);
+                    batch.draw(Resources.arrow_up, (float) -main.WIDTH /2+64*6, (float) -main.HEIGHT /2+64*2,64,64);
+
+                    batch.draw(Resources.frame, (float) -main.WIDTH /2+64*2, (float) -main.HEIGHT /2+64,64,64);
+                    batch.draw(Resources.frame, (float) -main.WIDTH /2+64*3, (float) -main.HEIGHT /2+64,64,64);
+                    batch.draw(Resources.frame, (float) -main.WIDTH /2+64*4, (float) -main.HEIGHT /2+64,64,64);
+                    batch.draw(Resources.frame, (float) -main.WIDTH /2+64*5, (float) -main.HEIGHT /2+64,64,64);
+                    batch.draw(Resources.frame, (float) -main.WIDTH /2+64*6, (float) -main.HEIGHT /2+64,64,64);
+
+                    batch.draw(Resources.arrow_down, (float) -main.WIDTH /2+64*2, (float) -main.HEIGHT /2,64,64);
+                    batch.draw(Resources.arrow_down, (float) -main.WIDTH /2+64*3, (float) -main.HEIGHT /2,64,64);
+                    batch.draw(Resources.arrow_down, (float) -main.WIDTH /2+64*4, (float) -main.HEIGHT /2,64,64);
+                    batch.draw(Resources.arrow_down, (float) -main.WIDTH /2+64*5, (float) -main.HEIGHT /2,64,64);
+                    batch.draw(Resources.arrow_down, (float) -main.WIDTH /2+64*6, (float) -main.HEIGHT /2,64,64);
+
+                }else {
+                    Resources.dongle12.draw(batch,"Circle", (float) -main.WIDTH /2+75, (float) -main.HEIGHT /2+95);
+                }
+            }
+                batch.draw(Resources.menu, (float) -main.WIDTH /2, (float) -main.HEIGHT /2,64,64);
+
+            batch.disableBlending();
             for(Triangle t: utils.getTriangles()){
                 t.render(shape,camera);
             }
@@ -79,6 +113,39 @@ public class Lab1Screen implements Screen {
                             isMenuOpen = true;
                         }
                     }
+                }
+
+                if(isMenuOpen){
+                    if(Gdx.input.getX()<=64){
+
+                        if(getY>=64&&getY<=64*2){
+                            if(isCircle){
+                                isCircle = false;
+                            }else {
+                                isCircle = true;
+                            }
+                        }
+                        if(getY>=64*2&&getY<=64*3){
+                            if(isLine){
+                                isLine = false;
+                            }else {
+                                isLine = true;
+                            }
+                        }
+                        if(getY>=64*3&&getY<=64*4){
+                            if(isTriangle){
+                                isTriangle = false;
+                            }else {
+                                isTriangle = true;
+                            }
+                        }
+                    }else {
+                        isCircle = false;
+                        isLine = false;
+                        isTriangle = false;
+                    }
+
+
                 }
             }
     }

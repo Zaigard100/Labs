@@ -8,18 +8,24 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Resources {
 
-    static FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("lab1/fonts/dongle.ttf"));
-    static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    static public FreeTypeFontGenerator generator ;
+    static public FreeTypeFontGenerator.FreeTypeFontParameter parameter;
 
-    static Texture menu = new Texture("lab1/textures/frame.png");
-    static Texture frame = new Texture("lab1/textures/frame.png");
+    static public Texture menu,frame,arrow_up,arrow_down;
 
-    public static Sprite menu_s = new Sprite(menu,16,16);
-    static BitmapFont dongle12;
+    static  BitmapFont dongle12;
 
     static{
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("lab1/fonts/dongle.ttf"));
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
         parameter.size = 32;
         dongle12 = generator.generateFont(parameter);
+
+        frame = new Texture(Gdx.files.internal("lab1/textures/frame.png"));
+        menu = new Texture(Gdx.files.internal("lab1/textures/menu.png"));
+        arrow_up = new Texture(Gdx.files.internal("lab1/textures/arrow_up.png"));
+        arrow_down = new Texture(Gdx.files.internal("lab1/textures/arrow_down.png"));
     }
 
 }
